@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="utf-8">
+    <title>Information | Linked in</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="./images/icon_logo.png"/>
+    <script src="vue.js"></script> 
+</head>
+
+<body>
+  <!-- page start -->
+  <div id="app" class="layout-body">  
+    <!-- menu start -->
+    <div class="layout-menu">
+       <!-- menu-box start -->
+       <div class="menu-box">
+          <span class="logo"></span>
+          <span class="search"></span>
+          <input type="text" placeholder="搜索"/>
+          <i style="width:0px;flex-grow:1"></i>
+          <span class="menu-btn" :class="{'menu-active':isMenuNum==index}" v-for="(i,index) in menuList" :key="index" @click="doMenu(index)">
+            <img :src="i.url">
+            <p>{{ i.label }}</p>
+          </span>
+          <div class="btn-right">
+            <span class="menu-btn" style="width:80px;">
+              <img :src="menuRightBtn[0].url">
+              <p>{{ menuRightBtn[0].label }}</p>
+            </span>
+            <span class="menu-btn" style="width:150px;">
+              <img :src="menuRightBtn[1].url">
+              <p>{{ menuRightBtn[1].label }}</p>
+            </span>
+          </div>
+       </div>
+       <!-- menu-box end -->
+    </div>
+    <!-- menu end -->
+    <!-- content start -->
+    <div class="layout-content">
+       <!-- content-box start -->
+       <div class="content-box">
+          <!-- details start  -->
+          <div v-if="showDetails" class="content-center-box">
+            <div class="card-box details-box"> 
+                <!-- content start  --> 
+                <div class="details-content-box">
+                    <h1>{{detailsData.title}}</h1>
+                    <span class="btn-share">Share</span>
+                    <p style="color:#0a66c2">author: {{detailsData.author}}</p>
+                    <p>update time: {{detailsData.time}}</p>
+                    <div class="info-box" v-html="detailsData.text"></div>
+                    <!-- article start -->
+                    <div class="card-box article-box" v-for="(i,index) in articleList" :key="index"> 
+                        <!-- user-info start -->
+                        <div class="user-info-box" style="margin-top: 10px;">
+                          <img :src="i.userImg"/>
+                          <div style="width:0px;flex-grow:1;">
+                            <div>
+                                <span class="h1-p">{{ i.name }}</span>
+                                <span>{{ i.icon }}</span>
+                            </div>  
+                            <p>{{ i.subInfo }}</p>
+                            <div style="display: flex;align-items:center;">
+                                <span>{{ i.time }}</span>
+                                <span class="icon-btn-earth"></span>
+                            </div>  
+                        </div>
+                        <div class="user-btn">+ Follow</div>
+                        </div>
+                        <!-- user-info end -->
+                        <div class="article-content-sn" v-if="!articleMore">
+                        <span class="more-box" @click="articleMore=true">...more</span>
+                        <p v-html="i.article"></p>
+                        </div>
+                        <div class="article-content" v-else v-html="i.article"></div>
+                        <div class="cover-img">
+                            <img :src="i.cover"/>
+                        </div>
+                        <img src="./images/bottom.png" width="100%"/>
+                    </div>
+                    <!-- article end -->
+                </div>
+                <!-- content end  -->
+            </div>
+          </div>
+          <!-- details end  -->
+          <!-- content-left start -->
+          <div v-if="!showDetails" class="content-left-box">
+            <!-- row start -->
+            <div class="card-box c-left-top">
+             <h2>{{userInfo.name}}</h2>
+             <p>{{userInfo.job}}</p>
+             <span class="btn btn-left-add-box">
+                <b>+</b>
+                Experience
+             </span>
+            </div>
+            <!-- row end --> 
+            <!-- row start -->
+            <div class="card-box">
+              <p>Strengthen your profile with an Alwriting assistant</p>
+              <span class="row-btn-box btn-left-box">
+                <img src="./images/icon-left-2.png"/>
+                <p>Try Premium for $0</p>
+              </span>
+            </div>
+            <!-- row end -->
+            <!-- row start -->
+            <div class="card-box friend-box">
+                <span class="row-btn-link-box btn-left-box"> 
+                  <p class="btn-link-1">Connections</p>
+                  <p class="btn-link-2">Grow your network</p>
+                </span>
+                <img src="./images/icon-left-friend.png"/>
+            </div>
+            <!-- row end -->
+            <!-- row start -->
+            <div class="card-box">
+                <span class="row-btn-box btn-left-box">
+                    <img src="./images/icon-left-side-1.png"/>
+                    <p>Saved items</p>
+                </span>
+                <span class="row-btn-box btn-left-box">
+                    <img src="./images/icon-left-side-2.png"/>
+                    <p>Groups</p>
+                </span>
+                <span class="row-btn-box btn-left-box">
+                    <img src="./images/icon-left-side-3.png"/>
+                    <p>Events</p>
+                </span>
+            </div>
+            <!-- row end -->
+          </div>
+          <!-- content-end end -->
+          <!-- content-center start -->
+          <div v-if="!showDetails" class="content-center-box">  
+             <!-- row start -->
+             <div class="card-box" style="padding-top:8px; padding-bottom:8px">
+                <div class="center-push-box"> 
+                    <img src="./images/icon-center-top-user.png" />
+                    <input class="btn-push" placeholder='Start a post, try writing with AI'/>
+                </div>
+                <div class="center-push-btn">
+                    <span class="row-btn-box btn-box-bar">
+                        <img src="./images/icon-center-top1.png"/>
+                        <p>Media</p>
+                    </span>
+                    <span class="row-btn-box btn-box-bar">
+                        <img src="./images/icon-center-top2.png"/>
+                        <p>Event</p>
+                    </span>
+                    <span class="row-btn-box btn-box-bar">
+                        <img src="./images/icon-center-top3.png"/>
+                        <p>Write article</p>
+                    </span>
+                </div>
+             </div>
+             <!-- row end -->
+             <div class="card-line-box">
+               <span class="line-bar"></span>
+               <p>Sort by：</p>
+               <h2>Top</h2>
+               <span class="triangle-down"></span>
+             </div>
+             <!-- article start -->
+             <div class="card-box article-box" v-for="(i,index) in articleList" :key="index">
+                <!-- btn start -->
+                <div class="article-btn-box">
+                  <p style="width:0px;flex-grow:1">Suggested</p>
+                  <p style="font-weight:bold;padding-bottom:8px;margin-right: 10px;">...</p>
+                  <span class="btn-close"></span>
+                </div>
+                <!-- btn end -->
+                <!-- user-info start -->
+                <div class="user-info-box">
+                  <img :src="i.userImg"/>
+                  <div style="width:0px;flex-grow:1;">
+                    <div>
+                        <span class="h1-p">{{ i.name}}</span>
+                        <span>・{{ i.icon}}</span>
+                    </div>  
+                    <p>{{ i.subInfo}}</p>
+                    <div style="display: flex;align-items:center;">
+                        <span style="padding-right:10px">{{ i.time}}</span>
+                        <span class="icon-btn-earth"></span>
+                    </div>  
+                  </div>
+                  <div class="user-btn">+ Follow</div>
+                </div>
+                <!-- user-info end -->
+                <div class="article-content-sn" v-if="!articleMore">
+                  <span class="more-box" @click="articleMore=true">...more</span>
+                  <p v-html="i.article"></p>
+                </div>
+                <div class="article-content" v-else v-html="i.article"></div>
+                <div class="cover-img">
+                    <img :src="i.cover"/>
+                </div>
+                <!-- bottom start -->
+                <div class="article-bottom-box">
+                  <div class="row">
+                    <img :src="i.interactArr.icon" :key="index"/>
+                    <p class="like">{{ i.interactArr.like }}</p>
+                    <span>{{ i.interactArr.commentNum }} comments</span>
+                  </div>  
+                  <div class="row-btn">
+                    <div class="btn-bar" :class="i.interactArr.isLike?'is-like-bar':''"  @click="doLike(index,i.interactArr.isLike)"><img src='./images/icon-1-like.svg'/>
+                      {{ i.interactArr.isLike?'not like':'like' }}
+                    </div>
+                    <div class="btn-bar"><img src='./images/icon-2-comment.svg'//>comment</div>
+                    <div class="btn-bar"><img src='./images/icon-3-forward.svg'//>forward</div>
+                    <div class="btn-bar"><img src='./images/icon-4-send.svg'//>send out</div>
+                  </div> 
+                </div>
+                <!-- bottom end -->
+             </div>
+             <!-- article end -->
+          </div>
+          <!-- content-center end -->
+          <!-- content-right start -->
+          <div class="content-right-box"> 
+             <!-- row start -->
+             <div class="card-box card-right-box" style="padding:15px 0px;">
+               <h1 class="h1-p padding-20" style="font-size: 18px;">LinkedIn News</h1> 
+               <img class="right-tip" src="./images/icon-right-tips.png"/>
+               <p class="padding-20">Top stories</p>
+               <!-- storiesList start  -->
+               <div class="list-item" v-for="(i,index) in storiesListShow" :key="index" @click="openDetails(i)">
+                 <h2>{{ i.title }}</h2>
+                 <div>
+                    <span>{{ i.time }} • </span>
+                    <span>{{ i.reader }}readers</span>
+                 </div>
+               </div> 
+               <!-- storiesList end  -->
+               <div class="show-more" @click="showMoreStories">
+                   {{ storiesMore ? 'Collapse':'Show more'}}
+                   <img src="./images/icon-arrow.png" :style="imageStyle"/>
+                </div>
+               <p class="padding-20">Today's games</p> 
+               <!-- game start  -->
+               <div class="game-item" v-for="(i,index) in gameList" :key="index" @click="openGame(i)">
+                 <img :src="i.img"/>
+                 <span>
+                    <p class="h1-p">{{i.title}}</p>
+                    <p>{{i.subTitle}}</p>
+                 </span>
+               </div>
+               <!-- game end  -->
+             </div>
+             <!-- row end -->
+             <img src="./images/webisite.png" width="100%"/>
+          </div>
+          <!-- content-right end -->
+       </div>
+       <!-- content-box end --> 
+    </div>
+    <!-- content end -->
+  </div>
+  <!-- page end --> 
+  <script src="main.js "></script>
+</body>
+
+</html>
